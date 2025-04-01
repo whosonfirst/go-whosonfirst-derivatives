@@ -5,7 +5,7 @@ import (
 	"log"
 
 	_ "github.com/whosonfirst/go-reader-http"
-	
+
 	"github.com/whosonfirst/go-whosonfirst-representation/app/server"
 )
 
@@ -18,5 +18,3 @@ func main() {
 		log.Fatalf("Failed to run server, %v", err)
 	}
 }
-
-	

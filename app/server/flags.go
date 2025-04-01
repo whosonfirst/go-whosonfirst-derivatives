@@ -17,7 +17,7 @@ func DefaultFlagSet() *flag.FlagSet {
 	fs := flagset.NewFlagSet("server")
 
 	fs.StringVar(&server_uri, "server-uri", "http://localhost:8080", "...")
-	fs.StringVar(&source_uri, "source-uri", "https://data.whosonfirst.org", "...")
+	fs.StringVar(&source_uri, "source-uri", "reader://?reader-uri=https://data.whosonfirst.org", "...")
 	fs.StringVar(&authenticator_uri, "authenticator-uri", "null://", "...")
 
 	fs.BoolVar(&verbose, "verbose", false, "Enable verbose (debug) logging.")

@@ -29,10 +29,23 @@ func RunWithFlagSet(ctx context.Context, fs *flag.FlagSet) error {
 
 func RunWithOptions(ctx context.Context, opts *RunOptions) error {
 
+	// Derive run_options here...
+
 	if opts.Verbose {
 		slog.SetLogLoggerLevel(slog.LevelDebug)
 		slog.Debug("Verbose logging enabled")
 	}
+
+	// First create a local copy of RunOptions that can't be
+	// modified after the fact. 'run_options' is defined in vars.go
+
+	v, err := opts.Clone()
+
+	if err != nil {
+		return fmt.Errorf("Failed to create local run options, %w", err)
+	}
+
+	run_options = v
 
 	// START OF defer loading handlers (and all their dependencies) until they are actually routed to
 	// in case we are running in a "serverless" environment like AWS Lambda
@@ -67,7 +80,7 @@ func RunWithOptions(ctx context.Context, opts *RunOptions) error {
 	assign_handlers(handlers, run_options.URIs.SVGAlt, svgHandlerFunc)
 
 	logger := slog.Default()
-	
+
 	log_logger := slog.NewLogLogger(logger.Handler(), slog.LevelInfo)
 
 	route_handler_opts := &handler.RouteHandlerOptions{

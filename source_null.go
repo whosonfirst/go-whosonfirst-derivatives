@@ -11,6 +11,15 @@ type NullSource struct {
 	Source
 }
 
+func init() {
+
+	err := RegisterSource(context.Background(), "null", NewNullSource)
+
+	if err != nil {
+		panic(err)
+	}
+}
+
 func NewNullSource(ctx context.Context, uri string) (Source, error) {
 	s := &NullSource{}
 	return s, nil
