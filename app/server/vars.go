@@ -4,7 +4,6 @@ import (
 	"sync"
 
 	"github.com/rs/cors"
-	"github.com/sfomuseum/go-http-auth"
 	"github.com/whosonfirst/go-whosonfirst-derivatives"
 	"github.com/whosonfirst/go-whosonfirst-derivatives/http"
 )
@@ -12,8 +11,6 @@ import (
 var run_options *RunOptions
 
 var prv derivatives.Provider
-
-var authenticator auth.Authenticator
 
 var uris_table *http.URIs
 

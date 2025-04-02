@@ -6,7 +6,6 @@ import (
 	"log/slog"
 
 	"github.com/rs/cors"
-	"github.com/sfomuseum/go-http-auth"
 	"github.com/whosonfirst/go-whosonfirst-derivatives"
 )
 
@@ -22,14 +21,6 @@ func setupCommon() {
 		setupCommonError = fmt.Errorf("Failed to set up provider, %w", err)
 		return
 	}
-
-	authenticator, err = auth.NewAuthenticator(ctx, run_options.AuthenticatorURI)
-
-	if err != nil {
-		setupCommonError = fmt.Errorf("Failed to set up authenticator, %w", err)
-		return
-	}
-
 }
 
 func setupAPI() {

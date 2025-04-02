@@ -227,4 +227,3 @@ func main() {
 * https://github.com/whosonfirst/go-reader-http
 * https://github.com/sfomuseum/go-geojsonld
 * https://github.com/aaronland/go-http-server
-* https://github.com/sfomuseum/go-http-auth
