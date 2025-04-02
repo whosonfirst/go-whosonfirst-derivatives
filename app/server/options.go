@@ -41,6 +41,18 @@ func RunOptionsFromFlagSet(ctx context.Context, fs *flag.FlagSet) (*RunOptions, 
 	}
 
 	uris := http.DefaultURIs()
+	uris.GeoJSON = path_geojson
+	uris.GeoJSONAlt = path_geojson_alt
+	uris.GeoJSONLD = path_geojsonld
+	uris.GeoJSONLDAlt = path_geojsonld_alt
+	uris.NavPlace = path_navplace
+	uris.NavPlaceAlt = path_navplace_alt
+	uris.Select = path_select
+	uris.SelectAlt = path_select_alt
+	uris.SPR = path_spr
+	uris.SPRAlt = path_spr_alt
+	uris.SVG = path_svg
+	uris.SVGAlt = path_svg_alt
 
 	opts := &RunOptions{
 		ServerURI:        server_uri,

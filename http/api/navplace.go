@@ -3,8 +3,9 @@ package api
 // https://preview.iiif.io/api/navplace_extension/api/extension/navplace/
 
 import (
+	"fmt"
 	"net/http"
-	"path/filepath"
+	"regexp"
 	"strings"
 
 	"github.com/whosonfirst/go-whosonfirst-derivatives"
@@ -20,6 +21,12 @@ type NavPlaceHandlerOptions struct {
 // specifically as navPlace "reference" objects.
 func NavPlaceHandler(opts *NavPlaceHandlerOptions) (http.Handler, error) {
 
+	re_ids, err := regexp.Compile(`.*\/([\d,?]+)\/.*`)
+
+	if err != nil {
+		return nil, fmt.Errorf("Failed to compile ID regexp, %w", err)
+	}
+
 	fn := func(rsp http.ResponseWriter, req *http.Request) {
 
 		ctx := req.Context()
@@ -29,11 +36,15 @@ func NavPlaceHandler(opts *NavPlaceHandlerOptions) (http.Handler, error) {
 		base := q.Get("id")
 
 		if base == "" {
-			path := req.URL.Path
-			base = filepath.Base(path)
 
-			base = strings.TrimLeft(base, "/")
-			base = strings.TrimRight(base, "/")
+			path := req.URL.Path
+
+			if re_ids.MatchString(path) {
+				m := re_ids.FindStringSubmatch(path)
+				base = m[1]
+			} else {
+				logger.Warn("Failed to match IDs in path")
+			}
 		}
 
 		ids := strings.Split(base, ",")
