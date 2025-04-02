@@ -110,7 +110,7 @@ Returns the original Who's On First (WOF) GeoJSON document. For example `http://
 
 ### GeoJSONLD
 
-Returns a Who's On First (WOF) document as a [GeoJSONLD](#) document. For example `http://localhost:8080/id/101736545/geojsonld` would yield:
+Returns a Who's On First (WOF) document as a [GeoJSONLD](https://github.com/geojson/geojson-ld) document. For example `http://localhost:8080/id/101736545/geojsonld` would yield:
 
 ![](docs/images/go-whosonfirst-derivatives-geojsonld.png)
 
