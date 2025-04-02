@@ -5,6 +5,10 @@ import (
 	"io"
 	"net/url"
 
+	_ "github.com/whosonfirst/go-reader-findingaid"
+	_ "github.com/whosonfirst/go-reader-github"
+	_ "github.com/whosonfirst/go-reader-http"
+
 	"github.com/whosonfirst/go-reader"
 	"github.com/whosonfirst/go-whosonfirst-uri"
 )

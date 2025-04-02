@@ -4,8 +4,6 @@ import (
 	"context"
 	"log"
 
-	_ "github.com/whosonfirst/go-reader-http"
-
 	"github.com/whosonfirst/go-whosonfirst-derivatives/app/server"
 )
 

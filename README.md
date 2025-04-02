@@ -201,8 +201,7 @@ import (
 	"context"
 	"log"
 
-	_ "github.com/whosonfirst/go-reader-http"	// Enabled by default
-	_ "github.com/whosonfirst/go-reader-github"	// Enable another implementation of go-reader
+	_ "github.com/whosonfirst/go-reader-blob"	// Enable another implementation of go-reader
 	_ "github.com/your-org/your-custom-provider"	// Enable your custom provider
 	
 	"github.com/whosonfirst/go-whosonfirst-derivatives/app/server"
@@ -225,5 +224,7 @@ func main() {
 * https://github.com/whosonfirst/go-whosonfirst-svg
 * https://github.com/whosonfirst/go-reader
 * https://github.com/whosonfirst/go-reader-http
+* https://github.com/whosonfirst/go-reader-findingaid
+* https://github.com/whosonfirst/go-reader-github
 * https://github.com/sfomuseum/go-geojsonld
 * https://github.com/aaronland/go-http-server
