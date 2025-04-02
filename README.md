@@ -10,7 +10,7 @@ It provides a simple HTTP server-based interface for serving different machine-r
 
 ## Documentation
 
-This is work in progress. Documentation is incomplete at this time.
+`godoc` is incomplete at this time.
 
 ## Tools
 
@@ -33,6 +33,12 @@ Usage:
 Valid options are:
   -authenticator-uri string
     	A registered sfomuseum/go-auth.Authenticator URI. (default "null://")
+  -cors-allowed-origin value
+    	Zero or more allowed origins for CORS requests.
+  -enable-cors
+    	Enable CORS support.
+  -navplace-max-features int
+    	The maximum number of WOF IDs allowed in a NavPlace request. (default 10)
   -path-geojson string
     	The default path to serve GeoJSON requests from. (default "/id/{id}/geojson")
   -path-geojson-alt value
@@ -67,18 +73,22 @@ Valid options are:
 
 #### Example
 
+The easiest way to try things out is to run the handy `debug` Makefile target, like this:
+
 ```
 $> make debug
 go run -mod vendor cmd/server/main.go \
+		-enable-cors \
+		-cors-allowed-origin "*" \
 		-verbose
-2025/04/02 11:45:18 DEBUG Verbose logging enabled
-2025/04/02 11:45:18 INFO Listening for requests address=http://localhost:8080
-2025/04/02 11:45:18 DEBUG Enable handler uri=/id/{id}/geojsonld handler=handler.RouteHandlerFunc
-2025/04/02 11:45:18 DEBUG Enable handler uri=/id/{id}/navplace handler=handler.RouteHandlerFunc
-2025/04/02 11:45:18 DEBUG Enable handler uri=/id/{id}/select handler=handler.RouteHandlerFunc
-2025/04/02 11:45:18 DEBUG Enable handler uri=/id/{id}/spr handler=handler.RouteHandlerFunc
-2025/04/02 11:45:18 DEBUG Enable handler uri=/id/{id}/svg handler=handler.RouteHandlerFunc
-2025/04/02 11:45:18 DEBUG Enable handler uri=/id/{id}/geojson handler=handler.RouteHandlerFunc
+2025/04/02 12:08:59 DEBUG Verbose logging enabled
+2025/04/02 12:08:59 INFO Listening for requests address=http://localhost:8080
+2025/04/02 12:08:59 DEBUG Enable handler uri=/id/{id}/spr handler=handler.RouteHandlerFunc
+2025/04/02 12:08:59 DEBUG Enable handler uri=/id/{id}/svg handler=handler.RouteHandlerFunc
+2025/04/02 12:08:59 DEBUG Enable handler uri=/id/{id}/geojson handler=handler.RouteHandlerFunc
+2025/04/02 12:08:59 DEBUG Enable handler uri=/id/{id}/geojsonld handler=handler.RouteHandlerFunc
+2025/04/02 12:08:59 DEBUG Enable handler uri=/id/{id}/navplace handler=handler.RouteHandlerFunc
+2025/04/02 12:08:59 DEBUG Enable handler uri=/id/{id}/select handler=handler.RouteHandlerFunc
 ```
 
 And then in another terminal:
@@ -87,12 +97,6 @@ And then in another terminal:
 $> curl 'http://localhost:8080/id/101736545/select?select=properties.wof:name'
 "Montreal"
 ```
-
-#### Providers
-
-##### null://
-
-##### reader://
 
 #### Representations (derivative formats)
 
@@ -122,7 +126,7 @@ _Note: There is a limit on the number of records that may be specified which is 
 
 ##### Select
 
-A JSON-encoded slice of a Who's On First (WOF) GeoJSON document matching a query pattern. For example `http://localhost:8080/id/101736545/select?select=properties.wof:concordances` would yield:
+Returns a WOF record as a JSON-encoded slice of a Who's On First (WOF) GeoJSON document matching a query pattern. For example `http://localhost:8080/id/101736545/select?select=properties.wof:concordances` would yield:
 
 ![](docs/images/go-whosonfirst-derivatives-select.png)
 
@@ -130,22 +134,97 @@ A JSON-encoded slice of a Who's On First (WOF) GeoJSON document matching a query
 
 As of this writing multiple `select` parameters are not supported. `select` parameters that do not match the regular expression defined in the `-select-pattern` flag (at startup) will trigger an error.
 
-##### Standard Places Result (SPR)
+##### Standard Places Response (SPR)
 
-A JSON-encoded "standard places response" for a given WOF ID. For example `http://localhost:8080/id/101736545/spr` would yield:
+Returns a WOF record as a JSON-encoded [standard places response](https://github.com/whosonfirst/go-whosonfirst-spr) (SPR) for a given WOF ID. For example `http://localhost:8080/id/101736545/spr` would yield:
 
 ![](docs/images/go-whosonfirst-derivatives-spr.png)
 
 ##### SVG
 
-An XML-encoded SVG representation of the geometry for a given WOF ID. For example `http://localhost:8080/id/101736545/svg` would yield:
+Returns a WOF record as a XML-encoded SVG representation of the geometry for a given WOF ID. For example `http://localhost:8080/id/101736545/svg` would yield:
 
 ![](docs/images/go-whosonfirst-derivatives-svg.png)
+
+## Providers
+
+All of the `net/http.Handler` instances used to generate derivative outputs use an instance of the `Provider` interface to retrieve a source Who's On First document to transform. That interface looks like this:
+
+```
+// Provider defines an interface for retrieving Who's On First documents used to generate derivative formats.
+type Provider interface {
+	// Return an `io.ReadSeekCloser` instance containing a Who's On First document.
+	GetFeature(context.Context, int64, *uri.URIArgs) (io.ReadSeekCloser, error)
+}
+```
+
+The following implementations of the `Provider` interface are supported by default:
+
+### reader://
+
+Retrieve orginal (source) Who's On First records using an implementation of the [whosonfirst/go-reader.Reader](https://github.com/whosonfirst/go-reader) interface.
+
+The syntax for the `reader://` provider is:
+
+```
+reader://?reader-uri={REGISTERED_WHOSONFIRST_GO_READER_URI}`
+```
+
+For example:
+
+```
+reader://?reader-uri=https://data.whosonfirst.org
+```
+
+Which would retrieve orginal (source) Who's On First records from the [https://data.whosonfirst.org](https://data.whosonfirst.org) web server (using the [whosonfirst/go-reader-http](https://github.com/whosonfirst/go-reader-http) package.
+
+### null://
+
+This is a placeholder provider that always returns a "not found" error.
+
+The syntax for the `null://` provider is:
+
+```
+null://
+```
+
+### Custom providers (and extending `cmd/server`)
+
+In order to use non-default providers you will need to implement the `Provider` interface and then register it with the `RegisterProvider` method on initialization. Consult the [provider_reader.go](provider_reader.go) code for a concrete example of how to do this.
+
+Then you will need to clone the `cmd/server/main.go` code in order to import your new package. The guts of that tool actually live in [app/server](app/server) so that these sorts of modifications can be as simple as possible. For example:
+
+```
+package main
+
+import (
+	"context"
+	"log"
+
+	_ "github.com/whosonfirst/go-reader-http"	// Enabled by default
+	_ "github.com/whosonfirst/go-reader-github"	// Enable another implementation of go-reader
+	_ "github.com/your-org/your-custom-provider"	// Enable your custom provider
+	
+	"github.com/whosonfirst/go-whosonfirst-derivatives/app/server"
+)
+
+func main() {
+
+	ctx := context.Background()
+	err := server.Run(ctx)
+
+	if err != nil {
+		log.Fatalf("Failed to run server, %v", err)
+	}
+}
+```
 
 ## See also
 
 * https://github.com/whosonfirst/go-whosonfirst-spr
 * https://github.com/whosonfirst/go-whosonfirst-svg
+* https://github.com/whosonfirst/go-reader
+* https://github.com/whosonfirst/go-reader-http
 * https://github.com/sfomuseum/go-geojsonld
 * https://github.com/aaronland/go-http-server
 * https://github.com/sfomuseum/go-http-auth

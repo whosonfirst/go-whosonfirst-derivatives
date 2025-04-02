@@ -42,14 +42,12 @@ func setupAPI() {
 		return
 	}
 
-	// Please finesse me...
-	cors_origins := []string{
-		"*",
-	}
+	if run_options.EnableCORS {
 
-	cors_wrapper = cors.New(cors.Options{
-		AllowedOrigins:   cors_origins,
-		AllowCredentials: false,
-		Debug:            false,
-	})
+		cors_wrapper = cors.New(cors.Options{
+			AllowedOrigins:   run_options.CORSAllowedOrigins,
+			AllowCredentials: false,
+			Debug:            false,
+		})
+	}
 }

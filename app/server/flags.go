@@ -31,6 +31,11 @@ var path_spr_alt multi.MultiCSVString
 var path_svg string
 var path_svg_alt multi.MultiCSVString
 
+var navplace_max_features int
+
+var enable_cors bool
+var cors_allowed_origins multi.MultiCSVString
+
 var verbose bool
 
 func DefaultFlagSet() *flag.FlagSet {
@@ -58,6 +63,11 @@ func DefaultFlagSet() *flag.FlagSet {
 
 	fs.StringVar(&path_svg, "path-svg", "/id/{id}/svg", "The default path to serve SVG requests from.")
 	fs.Var(&path_svg_alt, "path-svg-alt", "Zero or more alternate paths to serve SVG requests from.")
+
+	fs.IntVar(&navplace_max_features, "navplace-max-features", 10, "The maximum number of WOF IDs allowed in a NavPlace request.")
+
+	fs.BoolVar(&enable_cors, "enable-cors", false, "Enable CORS support.")
+	fs.Var(&cors_allowed_origins, "cors-allowed-origin", "Zero or more allowed origins for CORS requests.")
 
 	fs.BoolVar(&verbose, "verbose", false, "Enable verbose (debug) logging.")
 

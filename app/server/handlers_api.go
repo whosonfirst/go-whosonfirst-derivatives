@@ -29,7 +29,11 @@ func geoJSONHandlerFunc(ctx context.Context) (http.Handler, error) {
 		return nil, err
 	}
 
-	return cors_wrapper.Handler(h), nil
+	if cors_wrapper != nil {
+		h = cors_wrapper.Handler(h)
+	}
+
+	return h, nil
 }
 
 func geoJSONLDHandlerFunc(ctx context.Context) (http.Handler, error) {
@@ -51,7 +55,11 @@ func geoJSONLDHandlerFunc(ctx context.Context) (http.Handler, error) {
 		return nil, err
 	}
 
-	return cors_wrapper.Handler(h), nil
+	if cors_wrapper != nil {
+		h = cors_wrapper.Handler(h)
+	}
+
+	return h, nil
 }
 
 func sprHandlerFunc(ctx context.Context) (http.Handler, error) {
@@ -73,7 +81,11 @@ func sprHandlerFunc(ctx context.Context) (http.Handler, error) {
 		return nil, err
 	}
 
-	return cors_wrapper.Handler(h), nil
+	if cors_wrapper != nil {
+		h = cors_wrapper.Handler(h)
+	}
+
+	return h, nil
 }
 
 func selectHandlerFunc(ctx context.Context) (http.Handler, error) {
@@ -106,7 +118,11 @@ func selectHandlerFunc(ctx context.Context) (http.Handler, error) {
 		return nil, err
 	}
 
-	return cors_wrapper.Handler(h), nil
+	if cors_wrapper != nil {
+		h = cors_wrapper.Handler(h)
+	}
+
+	return h, nil
 }
 
 func navPlaceHandlerFunc(ctx context.Context) (http.Handler, error) {
@@ -120,7 +136,7 @@ func navPlaceHandlerFunc(ctx context.Context) (http.Handler, error) {
 
 	opts := &api.NavPlaceHandlerOptions{
 		Provider:    prv,
-		MaxFeatures: 10,
+		MaxFeatures: run_options.NavPlaceMaxFeatures,
 	}
 
 	h, err := api.NavPlaceHandler(opts)
@@ -129,7 +145,11 @@ func navPlaceHandlerFunc(ctx context.Context) (http.Handler, error) {
 		return nil, err
 	}
 
-	return cors_wrapper.Handler(h), nil
+	if cors_wrapper != nil {
+		h = cors_wrapper.Handler(h)
+	}
+
+	return h, nil
 }
 
 func svgHandlerFunc(ctx context.Context) (http.Handler, error) {
@@ -148,5 +168,15 @@ func svgHandlerFunc(ctx context.Context) (http.Handler, error) {
 		Sizes:    sz,
 	}
 
-	return api.SVGHandler(opts)
+	h, err := api.SVGHandler(opts)
+
+	if err != nil {
+		return nil, err
+	}
+
+	if cors_wrapper != nil {
+		h = cors_wrapper.Handler(h)
+	}
+
+	return h, nil
 }

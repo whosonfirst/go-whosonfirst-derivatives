@@ -8,6 +8,8 @@ cli:
 
 debug:
 	go run -mod $(GOMOD) cmd/server/main.go \
+		-enable-cors \
+		-cors-allowed-origin "*" \
 		-verbose
 
 lambda-server:

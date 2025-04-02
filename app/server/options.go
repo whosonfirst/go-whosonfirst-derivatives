@@ -11,11 +11,14 @@ import (
 )
 
 type RunOptions struct {
-	ServerURI        string     `json:"server_uri"`
-	ProviderURI      string     `json:"provider_uri"`
-	AuthenticatorURI string     `json:"authenticator_uri"`
-	URIs             *http.URIs `json:"uris"`
-	Verbose          bool       `json:"verbose"`
+	ServerURI           string     `json:"server_uri"`
+	ProviderURI         string     `json:"provider_uri"`
+	AuthenticatorURI    string     `json:"authenticator_uri"`
+	URIs                *http.URIs `json:"uris"`
+	NavPlaceMaxFeatures int        `json:"navplace_max_features"`
+	EnableCORS          bool       `json:"enable_cors"`
+	CORSAllowedOrigins  []string   `json:"cors_allowed_origins"`
+	Verbose             bool       `json:"verbose"`
 }
 
 func (o *RunOptions) Clone() (*RunOptions, error) {
@@ -55,11 +58,14 @@ func RunOptionsFromFlagSet(ctx context.Context, fs *flag.FlagSet) (*RunOptions, 
 	uris.SVGAlt = path_svg_alt
 
 	opts := &RunOptions{
-		ServerURI:        server_uri,
-		AuthenticatorURI: authenticator_uri,
-		ProviderURI:      provider_uri,
-		URIs:             uris,
-		Verbose:          verbose,
+		ServerURI:           server_uri,
+		AuthenticatorURI:    authenticator_uri,
+		ProviderURI:         provider_uri,
+		URIs:                uris,
+		NavPlaceMaxFeatures: navplace_max_features,
+		EnableCORS:          enable_cors,
+		CORSAllowedOrigins:  cors_allowed_origins,
+		Verbose:             verbose,
 	}
 
 	return opts, nil

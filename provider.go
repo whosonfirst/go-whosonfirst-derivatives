@@ -12,7 +12,9 @@ import (
 	"github.com/whosonfirst/go-whosonfirst-uri"
 )
 
+// Provider defines an interface for retrieving Who's On First documents used to generate derivative formats.
 type Provider interface {
+	// Return an `io.ReadSeekCloser` instance containing a Who's On First document.
 	GetFeature(context.Context, int64, *uri.URIArgs) (io.ReadSeekCloser, error)
 }
 
