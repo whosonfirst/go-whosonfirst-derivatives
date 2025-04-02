@@ -23,6 +23,8 @@ go build -mod vendor -ldflags="-s -w" -o bin/server cmd/server/main.go
 
 ### server
 
+#### Example
+
 #### Providers
 
 ##### null://

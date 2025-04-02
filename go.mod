@@ -10,7 +10,7 @@ require (
 	github.com/rs/cors v1.11.1
 	github.com/sfomuseum/go-flags v0.10.0
 	github.com/sfomuseum/go-geojsonld v1.0.0
-	github.com/sfomuseum/go-http-auth v0.12.0
+	github.com/sfomuseum/go-http-auth v1.0.0
 	github.com/tidwall/gjson v1.18.0
 	github.com/whosonfirst/go-reader v1.0.2
 	github.com/whosonfirst/go-reader-http v0.3.2
