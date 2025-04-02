@@ -9,6 +9,8 @@ cli:
 debug:
 	go run -mod $(GOMOD) cmd/server/main.go \
 		-enable-cors \
+		-provider-uri 'reader://?reader-uri={reader_uri}' \
+		-reader-uri 'https://data.whosonfirst.org' \
 		-cors-allowed-origin "*" \
 		-verbose
 

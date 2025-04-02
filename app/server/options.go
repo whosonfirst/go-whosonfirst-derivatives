@@ -4,6 +4,7 @@ import (
 	"context"
 	"flag"
 	"fmt"
+	"strings"
 
 	"github.com/mitchellh/copystructure"
 	"github.com/sfomuseum/go-flags/flagset"
@@ -55,6 +56,10 @@ func RunOptionsFromFlagSet(ctx context.Context, fs *flag.FlagSet) (*RunOptions, 
 	uris.SPRAlt = path_spr_alt
 	uris.SVG = path_svg
 	uris.SVGAlt = path_svg_alt
+
+	if reader_uri != "" && strings.Contains(provider_uri, "{reader_uri}") {
+		provider_uri = strings.Replace(provider_uri, "{reader_uri}", reader_uri, 1)
+	}
 
 	opts := &RunOptions{
 		ServerURI:           server_uri,

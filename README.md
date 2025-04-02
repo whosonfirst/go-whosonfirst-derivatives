@@ -24,15 +24,13 @@ go build -mod vendor -ldflags="-s -w" -o bin/server cmd/server/main.go
 A simple HTTP server-based interface for serving different machine-reabable representations (derivatives) of Who's On First documents.
 
 ```
-$> ./bin/server -h
+> ./bin/server -h
 A simple HTTP server-based interface for serving different machine-reabable representations (derivatives) of Who's On First documents.
 
 Usage:
 	 ./bin/server[options]
 
 Valid options are:
-  -authenticator-uri string
-    	A registered sfomuseum/go-auth.Authenticator URI. (default "null://")
   -cors-allowed-origin value
     	Zero or more allowed origins for CORS requests.
   -enable-cors
@@ -65,6 +63,8 @@ Valid options are:
     	Zero or more alternate paths to serve SVG requests from.
   -provider-uri string
     	A registered whosonfirst/go-whosonfirst-derivatives.Provider URI. (default "reader://?reader-uri=https://data.whosonfirst.org")
+  -reader-uri string
+    	If not-empty and the -provider-uri flag contains the string '{reader_uri}' the value of this flag will be used to replace the '{reader_uri}' placeholder in the -provider-uri flag.
   -server-uri string
     	A registered aaronland/go-http-server.Server URI. (default "http://localhost:8080")
   -verbose
@@ -78,6 +78,8 @@ The easiest way to try things out is to run the handy `debug` Makefile target, l
 ```
 $> make debug
 go run -mod vendor cmd/server/main.go \
+		-provider-uri 'reader://?reader-uri={reader_uri}' \
+		-reader-uri 'https://data.whosonfirst.org' \
 		-enable-cors \
 		-cors-allowed-origin "*" \
 		-verbose
