@@ -98,21 +98,21 @@ $> curl 'http://localhost:8080/id/101736545/select?select=properties.wof:name'
 "Montreal"
 ```
 
-#### Representations (derivative formats)
+## Representations (derivative formats)
 
-##### GeoJSON
+### GeoJSON
 
 Returns the original Who's On First (WOF) GeoJSON document. For example `http://localhost:8080/id/101736545/geojson` would yield:
 
 ![](docs/images/go-whosonfirst-derivatives-geojson.png)
 
-##### GeoJSONLD
+### GeoJSONLD
 
 Returns a Who's On First (WOF) document as a [GeoJSONLD](#) document. For example `http://localhost:8080/id/101736545/geojsonld` would yield:
 
 ![](docs/images/go-whosonfirst-derivatives-geojsonld.png)
 
-##### NavPlace
+### NavPlace
 
 Returns a WOF record as a GeoJSON `FeatureCollection` document. This enables WOF records to be included in [IIIF navPlace](https://preview.iiif.io/api/navplace_extension/api/extension/navplace/) records as "reference" objects. For example `http://localhost:8080/id/101736545/navplace` would yield:
 
@@ -124,7 +124,7 @@ You can specify multiple `Feature` records to include in a response by passing a
 
 _Note: There is a limit on the number of records that may be specified which is set by the `-navplace-max-features` flag._
 
-##### Select
+### Select
 
 Returns a WOF record as a JSON-encoded slice of a Who's On First (WOF) GeoJSON document matching a query pattern. For example `http://localhost:8080/id/101736545/select?select=properties.wof:concordances` would yield:
 
@@ -134,13 +134,13 @@ Returns a WOF record as a JSON-encoded slice of a Who's On First (WOF) GeoJSON d
 
 As of this writing multiple `select` parameters are not supported. `select` parameters that do not match the regular expression defined in the `-select-pattern` flag (at startup) will trigger an error.
 
-##### Standard Places Response (SPR)
+### Standard Places Response (SPR)
 
 Returns a WOF record as a JSON-encoded [standard places response](https://github.com/whosonfirst/go-whosonfirst-spr) (SPR) for a given WOF ID. For example `http://localhost:8080/id/101736545/spr` would yield:
 
 ![](docs/images/go-whosonfirst-derivatives-spr.png)
 
-##### SVG
+### SVG
 
 Returns a WOF record as a XML-encoded SVG representation of the geometry for a given WOF ID. For example `http://localhost:8080/id/101736545/svg` would yield:
 
