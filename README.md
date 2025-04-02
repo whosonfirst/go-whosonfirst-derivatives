@@ -265,11 +265,12 @@ Is the same as:
 
 ## See also
 
-* https://github.com/whosonfirst/go-whosonfirst-spr
-* https://github.com/whosonfirst/go-whosonfirst-svg
+* https://github.com/whosonfirst/go-whosonfirst-uri
 * https://github.com/whosonfirst/go-reader
 * https://github.com/whosonfirst/go-reader-http
 * https://github.com/whosonfirst/go-reader-findingaid
 * https://github.com/whosonfirst/go-reader-github
 * https://github.com/sfomuseum/go-geojsonld
+* https://github.com/whosonfirst/go-whosonfirst-spr
+* https://github.com/whosonfirst/go-whosonfirst-svg
 * https://github.com/aaronland/go-http-server
