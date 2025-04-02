@@ -67,6 +67,27 @@ Valid options are:
 
 #### Example
 
+```
+$> make debug
+go run -mod vendor cmd/server/main.go \
+		-verbose
+2025/04/02 11:45:18 DEBUG Verbose logging enabled
+2025/04/02 11:45:18 INFO Listening for requests address=http://localhost:8080
+2025/04/02 11:45:18 DEBUG Enable handler uri=/id/{id}/geojsonld handler=handler.RouteHandlerFunc
+2025/04/02 11:45:18 DEBUG Enable handler uri=/id/{id}/navplace handler=handler.RouteHandlerFunc
+2025/04/02 11:45:18 DEBUG Enable handler uri=/id/{id}/select handler=handler.RouteHandlerFunc
+2025/04/02 11:45:18 DEBUG Enable handler uri=/id/{id}/spr handler=handler.RouteHandlerFunc
+2025/04/02 11:45:18 DEBUG Enable handler uri=/id/{id}/svg handler=handler.RouteHandlerFunc
+2025/04/02 11:45:18 DEBUG Enable handler uri=/id/{id}/geojson handler=handler.RouteHandlerFunc
+```
+
+And then in another terminal:
+
+```
+$> curl 'http://localhost:8080/id/101736545/select?select=properties.wof:name'
+"Montreal"
+```
+
 #### Providers
 
 ##### null://
@@ -77,22 +98,54 @@ Valid options are:
 
 ##### GeoJSON
 
+Returns the original Who's On First (WOF) GeoJSON document. For example `http://localhost:8080/id/101736545/geojson` would yield:
+
+![](docs/images/go-whosonfirst-derivatives-geojson.png)
+
 ##### GeoJSONLD
+
+Returns a Who's On First (WOF) document as a [GeoJSONLD](#) document. For example `http://localhost:8080/id/101736545/geojsonld` would yield:
+
+![](docs/images/go-whosonfirst-derivatives-geojsonld.png)
 
 ##### NavPlace
 
+Returns a WOF record as a GeoJSON `FeatureCollection` document. This enables WOF records to be included in [IIIF navPlace](https://preview.iiif.io/api/navplace_extension/api/extension/navplace/) records as "reference" objects. For example `http://localhost:8080/id/101736545/navplace` would yield:
+
+![](docs/images/go-whosonfirst-derivatives-navplace.png)
+
+You can specify multiple `Feature` records to include in a response by passing a comma-separated list of IDs. For example:
+
+`http://localhost:8080/id/102527513,85922583,85688637/navplace`
+
+_Note: There is a limit on the number of records that may be specified which is set by the `-navplace-max-features` flag._
+
 ##### Select
 
-```
-$> curl 'http://localhost:8080/id/101736545/select?select=properties.wof:name'
-"Montreal"
-```
+A JSON-encoded slice of a Who's On First (WOF) GeoJSON document matching a query pattern. For example `http://localhost:8080/id/101736545/select?select=properties.wof:concordances` would yield:
+
+![](docs/images/go-whosonfirst-derivatives-select.png)
+
+`select` parameters should conform to the [GJSON path syntax](https://github.com/tidwall/gjson/blob/master/SYNTAX.md).
+
+As of this writing multiple `select` parameters are not supported. `select` parameters that do not match the regular expression defined in the `-select-pattern` flag (at startup) will trigger an error.
 
 ##### Standard Places Result (SPR)
 
+A JSON-encoded "standard places response" for a given WOF ID. For example `http://localhost:8080/id/101736545/spr` would yield:
+
+![](docs/images/go-whosonfirst-derivatives-spr.png)
+
 ##### SVG
+
+An XML-encoded SVG representation of the geometry for a given WOF ID. For example `http://localhost:8080/id/101736545/svg` would yield:
+
+![](docs/images/go-whosonfirst-derivatives-svg.png)
 
 ## See also
 
+* https://github.com/whosonfirst/go-whosonfirst-spr
+* https://github.com/whosonfirst/go-whosonfirst-svg
+* https://github.com/sfomuseum/go-geojsonld
 * https://github.com/aaronland/go-http-server
 * https://github.com/sfomuseum/go-http-auth
