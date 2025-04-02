@@ -6,7 +6,7 @@ Go package to provide a simple HTTP server-based interface for serving different
 
 This is basically the `/api` package extracted from the [whosonfirst/go-whosonfirst-spelunker-httpd](https://github.com/whosonfirst/go-whosonfirst-spelunker-httpd).
 
-It provides a simple HTTP server-based interface for serving different machine-reabable representations (derivatives) of Who's On First documents. The goal, once it's been proven to work, is to import and use the `net/http` handlers provided by this package in `whosonfirst/go-whosonfirst-spelunker-httpd`.
+It provides a simple HTTP server-based interface for serving different machine-reabable representations (derivatives) of Who's On First documents. The goal, once it's been proven to work, is to [import and use](https://github.com/whosonfirst/go-whosonfirst-spelunker-httpd/issues/50) the `net/http` handlers provided by this package in `whosonfirst/go-whosonfirst-spelunker-httpd`.
 
 ## Documentation
 
