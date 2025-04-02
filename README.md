@@ -226,6 +226,43 @@ func main() {
 }
 ```
 
+## AWS (Lambda)
+
+Running the `server` tool as an AWS Lambda function is supported. To build the function run the handy `lambda-server` Makefile target:
+
+```
+$> make lambda-server
+if test -f bootstrap; then rm -f bootstrap; fi
+if test -f server.zip; then rm -f server.zip; fi
+GOARCH=arm64 GOOS=linux go build -mod vendor -ldflags="-s -w" -tags lambda.norpc -o bootstrap cmd/server/main.go
+zip server.zip bootstrap
+  adding: bootstrap (deflated 72%)
+rm -f bootstrap
+```
+
+Deploy the function, per your specifics, using the "Amazon Linux 2" runtime and the [awslabs/aws-lambda-web-adapter](https://github.com/awslabs/aws-lambda-web-adapter) which allows the code to run unchanged (as in on `localhost:8080`).
+
+Whether you expose the Lambda function with a Lambda Function URI or an API Gateway setup is outside the scope of this document.
+
+Command-line flags are derived from (AWS Lambda) environment variables. The rules for those environment variables are as follows:
+
+* Given a command line flag, upper-case it and replace all instances of "-" with "_"
+* Prefix the new value with `WHOSONFIRST_`
+
+For example, the `-provider-uri` flag would be derived using the `WHOSONFIRST_PROVIDER_URI` environment variable.
+
+Values for flags that can be invoked multiple times can be passed in to a single environment variable as a comma-separated list. For example:
+
+```
+WHOSONFIRST_CORS_ALLOWED_ORIGIN=foo.com,bar.com  
+```
+
+Is the same as:
+
+```
+-cors-allowed-origin foo.com -cors-allowed-origin bar.com
+```
+
 ## See also
 
 * https://github.com/whosonfirst/go-whosonfirst-spr
