@@ -178,6 +178,12 @@ reader://?reader-uri=https://data.whosonfirst.org
 
 Which would retrieve orginal (source) Who's On First records from the [https://data.whosonfirst.org](https://data.whosonfirst.org) web server (using the [whosonfirst/go-reader-http](https://github.com/whosonfirst/go-reader-http) package.
 
+The following implementations of the `go-reader.Reader` interface are enabled by default:
+
+* https://github.com/whosonfirst/go-reader-http
+* https://github.com/whosonfirst/go-reader-github
+* https://github.com/whosonfirst/go-reader-findingaid
+
 ### null://
 
 This is a placeholder provider that always returns a "not found" error.
