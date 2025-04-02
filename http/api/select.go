@@ -7,13 +7,13 @@ import (
 	"encoding/json"
 	"github.com/aaronland/go-http-sanitize"
 	"github.com/tidwall/gjson"
-	"github.com/whosonfirst/go-whosonfirst-representation"
-	wof_http "github.com/whosonfirst/go-whosonfirst-representation/http"
+	"github.com/whosonfirst/go-whosonfirst-derivatives"
+	wof_http "github.com/whosonfirst/go-whosonfirst-derivatives/http"
 )
 
 type SelectHandlerOptions struct {
-	Pattern *regexp.Regexp
-	Source  representation.Source
+	Pattern  *regexp.Regexp
+	Provider derivatives.Provider
 }
 
 func SelectHandler(opts *SelectHandlerOptions) (http.Handler, error) {
@@ -44,7 +44,7 @@ func SelectHandler(opts *SelectHandlerOptions) (http.Handler, error) {
 
 		if err != nil {
 			logger.Error("Failed to parse URI from request", "error", err)
-			http.Error(rsp, representation.ErrNotFound.Error(), status)
+			http.Error(rsp, derivatives.ErrNotFound.Error(), status)
 			return
 		}
 
@@ -55,11 +55,11 @@ func SelectHandler(opts *SelectHandlerOptions) (http.Handler, error) {
 
 		logger = logger.With("id", req_uri.Id)
 
-		r, err := wof_http.FeatureFromRequestURI(ctx, opts.Source, req_uri)
+		r, err := wof_http.FeatureFromRequestURI(ctx, opts.Provider, req_uri)
 
 		if err != nil {
 			logger.Error("Failed to get by ID", "error", err)
-			http.Error(rsp, representation.ErrNotFound.Error(), http.StatusNotFound)
+			http.Error(rsp, derivatives.ErrNotFound.Error(), http.StatusNotFound)
 			return
 		}
 

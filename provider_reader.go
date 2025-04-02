@@ -1,4 +1,4 @@
-package representation
+package derivatives
 
 import (
 	"context"
@@ -9,21 +9,21 @@ import (
 	"github.com/whosonfirst/go-whosonfirst-uri"
 )
 
-type ReaderSource struct {
-	Source
+type ReaderProvider struct {
+	Provider
 	reader reader.Reader
 }
 
 func init() {
 
-	err := RegisterSource(context.Background(), "reader", NewReaderSource)
+	err := RegisterProvider(context.Background(), "reader", NewReaderProvider)
 
 	if err != nil {
 		panic(err)
 	}
 }
 
-func NewReaderSource(ctx context.Context, uri string) (Source, error) {
+func NewReaderProvider(ctx context.Context, uri string) (Provider, error) {
 
 	u, err := url.Parse(uri)
 
@@ -41,13 +41,13 @@ func NewReaderSource(ctx context.Context, uri string) (Source, error) {
 		return nil, err
 	}
 
-	s := &ReaderSource{
+	s := &ReaderProvider{
 		reader: r,
 	}
 	return s, nil
 }
 
-func (s *ReaderSource) GetFeature(ctx context.Context, id int64, uri_args *uri.URIArgs) (io.ReadSeekCloser, error) {
+func (s *ReaderProvider) GetFeature(ctx context.Context, id int64, uri_args *uri.URIArgs) (io.ReadSeekCloser, error) {
 
 	rel_path, err := uri.Id2RelPath(id, uri_args)
 

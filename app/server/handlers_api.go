@@ -7,7 +7,7 @@ import (
 	"net/http"
 	"regexp"
 
-	"github.com/whosonfirst/go-whosonfirst-representation/http/api"
+	"github.com/whosonfirst/go-whosonfirst-derivatives/http/api"
 )
 
 func geoJSONHandlerFunc(ctx context.Context) (http.Handler, error) {
@@ -20,7 +20,7 @@ func geoJSONHandlerFunc(ctx context.Context) (http.Handler, error) {
 	}
 
 	opts := &api.GeoJSONHandlerOptions{
-		Source: src,
+		Provider: prv,
 	}
 
 	h, err := api.GeoJSONHandler(opts)
@@ -42,7 +42,7 @@ func geoJSONLDHandlerFunc(ctx context.Context) (http.Handler, error) {
 	}
 
 	opts := &api.GeoJSONLDHandlerOptions{
-		Source: src,
+		Provider: prv,
 	}
 
 	h, err := api.GeoJSONLDHandler(opts)
@@ -64,7 +64,7 @@ func sprHandlerFunc(ctx context.Context) (http.Handler, error) {
 	}
 
 	opts := &api.SPRHandlerOptions{
-		Source: src,
+		Provider: prv,
 	}
 
 	h, err := api.SPRHandler(opts)
@@ -96,8 +96,8 @@ func selectHandlerFunc(ctx context.Context) (http.Handler, error) {
 	}
 
 	opts := &api.SelectHandlerOptions{
-		Pattern: pat,
-		Source:  src,
+		Pattern:  pat,
+		Provider: prv,
 	}
 
 	h, err := api.SelectHandler(opts)
@@ -119,7 +119,7 @@ func navPlaceHandlerFunc(ctx context.Context) (http.Handler, error) {
 	}
 
 	opts := &api.NavPlaceHandlerOptions{
-		Source:      src,
+		Provider:    prv,
 		MaxFeatures: 10,
 	}
 
@@ -144,8 +144,8 @@ func svgHandlerFunc(ctx context.Context) (http.Handler, error) {
 	sz := api.DefaultSVGSizes()
 
 	opts := &api.SVGHandlerOptions{
-		Source: src,
-		Sizes:  sz,
+		Provider: prv,
+		Sizes:    sz,
 	}
 
 	return api.SVGHandler(opts)

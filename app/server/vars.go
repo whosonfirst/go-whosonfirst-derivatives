@@ -5,13 +5,13 @@ import (
 
 	"github.com/rs/cors"
 	"github.com/sfomuseum/go-http-auth"
-	"github.com/whosonfirst/go-whosonfirst-representation"
-	"github.com/whosonfirst/go-whosonfirst-representation/http"
+	"github.com/whosonfirst/go-whosonfirst-derivatives"
+	"github.com/whosonfirst/go-whosonfirst-derivatives/http"
 )
 
 var run_options *RunOptions
 
-var src representation.Source
+var prv derivatives.Provider
 
 var authenticator auth.Authenticator
 

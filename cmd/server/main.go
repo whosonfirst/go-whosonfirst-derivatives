@@ -6,7 +6,7 @@ import (
 
 	_ "github.com/whosonfirst/go-reader-http"
 
-	"github.com/whosonfirst/go-whosonfirst-representation/app/server"
+	"github.com/whosonfirst/go-whosonfirst-derivatives/app/server"
 )
 
 func main() {

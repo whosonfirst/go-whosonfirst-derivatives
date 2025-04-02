@@ -6,8 +6,8 @@ import (
 
 	"github.com/tidwall/gjson"
 	"github.com/whosonfirst/go-sanitize"
-	"github.com/whosonfirst/go-whosonfirst-representation"
-	wof_http "github.com/whosonfirst/go-whosonfirst-representation/http"
+	"github.com/whosonfirst/go-whosonfirst-derivatives"
+	wof_http "github.com/whosonfirst/go-whosonfirst-derivatives/http"
 	"github.com/whosonfirst/go-whosonfirst-svg"
 )
 
@@ -18,8 +18,8 @@ type SVGSize struct {
 }
 
 type SVGHandlerOptions struct {
-	Sizes  map[string]SVGSize
-	Source representation.Source
+	Sizes    map[string]SVGSize
+	Provider derivatives.Provider
 }
 
 func DefaultSVGSizes() map[string]SVGSize {
@@ -75,11 +75,11 @@ func SVGHandler(opts *SVGHandlerOptions) (http.Handler, error) {
 
 		logger = logger.With("id", req_uri.Id)
 
-		f, err := wof_http.FeatureFromRequestURI(ctx, opts.Source, req_uri)
+		f, err := wof_http.FeatureFromRequestURI(ctx, opts.Provider, req_uri)
 
 		if err != nil {
 			logger.Error("Failed to get by ID", "id", req_uri.Id, "error", err)
-			http.Error(rsp, representation.ErrNotFound.Error(), http.StatusNotFound)
+			http.Error(rsp, derivatives.ErrNotFound.Error(), http.StatusNotFound)
 			return
 		}
 

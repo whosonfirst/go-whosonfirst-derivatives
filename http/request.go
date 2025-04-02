@@ -10,7 +10,7 @@ import (
 	"strings"
 
 	"github.com/aaronland/go-http-sanitize"
-	"github.com/whosonfirst/go-whosonfirst-representation"
+	"github.com/whosonfirst/go-whosonfirst-derivatives"
 	wof_uri "github.com/whosonfirst/go-whosonfirst-uri"
 )
 
@@ -106,11 +106,11 @@ func ParseURIFromPath(ctx context.Context, path string) (*URI, error, int) {
 	return parsed_uri, nil, 0
 }
 
-func FeatureFromRequestURI(ctx context.Context, src representation.Source, req_uri *URI) ([]byte, error) {
+func FeatureFromRequestURI(ctx context.Context, prv derivatives.Provider, req_uri *URI) ([]byte, error) {
 
 	wof_id := req_uri.Id
 
-	r, err := src.GetFeature(ctx, wof_id, req_uri.URIArgs)
+	r, err := prv.GetFeature(ctx, wof_id, req_uri.URIArgs)
 
 	if err != nil {
 		return nil, fmt.Errorf("Failed to retrieve feature for %d, %w", wof_id, err)

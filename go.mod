@@ -1,4 +1,4 @@
-module github.com/whosonfirst/go-whosonfirst-representation
+module github.com/whosonfirst/go-whosonfirst-derivatives
 
 go 1.24.2
 

@@ -7,12 +7,12 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/whosonfirst/go-whosonfirst-representation"
-	wof_http "github.com/whosonfirst/go-whosonfirst-representation/http"
+	"github.com/whosonfirst/go-whosonfirst-derivatives"
+	wof_http "github.com/whosonfirst/go-whosonfirst-derivatives/http"
 )
 
 type NavPlaceHandlerOptions struct {
-	Source      representation.Source
+	Provider    derivatives.Provider
 	MaxFeatures int
 }
 
@@ -72,7 +72,7 @@ func NavPlaceHandler(opts *NavPlaceHandlerOptions) (http.Handler, error) {
 
 		for i, req_uri := range uris {
 
-			r, err := wof_http.FeatureFromRequestURI(ctx, opts.Source, req_uri)
+			r, err := wof_http.FeatureFromRequestURI(ctx, opts.Provider, req_uri)
 
 			if err != nil {
 				logger.Error("Failed to retrieve record", "id", req_uri.Id, "error", err)

@@ -2,15 +2,12 @@ package http
 
 import (
 	"fmt"
-	_ "log/slog"
 	"net/url"
 	"reflect"
 	"strings"
 )
 
 type URIs struct {
-
-	// API/machine-readable
 	GeoJSON      string   `json:"geojson"`
 	GeoJSONAlt   []string `json:"geojson_alt"`
 	GeoJSONLD    string   `json:"geojsonld"`

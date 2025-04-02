@@ -7,12 +7,12 @@ import (
 
 	"github.com/mitchellh/copystructure"
 	"github.com/sfomuseum/go-flags/flagset"
-	"github.com/whosonfirst/go-whosonfirst-representation/http"
+	"github.com/whosonfirst/go-whosonfirst-derivatives/http"
 )
 
 type RunOptions struct {
 	ServerURI        string     `json:"server_uri"`
-	SourceURI        string     `json:"source_uri"`
+	ProviderURI      string     `json:"provider_uri"`
 	AuthenticatorURI string     `json:"authenticator_uri"`
 	URIs             *http.URIs `json:"uris"`
 	Verbose          bool       `json:"verbose"`
@@ -45,7 +45,7 @@ func RunOptionsFromFlagSet(ctx context.Context, fs *flag.FlagSet) (*RunOptions, 
 	opts := &RunOptions{
 		ServerURI:        server_uri,
 		AuthenticatorURI: authenticator_uri,
-		SourceURI:        source_uri,
+		ProviderURI:      provider_uri,
 		URIs:             uris,
 		Verbose:          verbose,
 	}

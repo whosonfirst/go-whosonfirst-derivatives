@@ -4,12 +4,12 @@ import (
 	"net/http"
 
 	"github.com/sfomuseum/go-geojsonld"
-	"github.com/whosonfirst/go-whosonfirst-representation"
-	wof_http "github.com/whosonfirst/go-whosonfirst-representation/http"
+	"github.com/whosonfirst/go-whosonfirst-derivatives"
+	wof_http "github.com/whosonfirst/go-whosonfirst-derivatives/http"
 )
 
 type GeoJSONLDHandlerOptions struct {
-	Source representation.Source
+	Provider derivatives.Provider
 }
 
 func GeoJSONLDHandler(opts *GeoJSONLDHandlerOptions) (http.Handler, error) {
@@ -23,7 +23,7 @@ func GeoJSONLDHandler(opts *GeoJSONLDHandlerOptions) (http.Handler, error) {
 
 		if err != nil {
 			logger.Error("Failed to parse URI from request", "error", err)
-			http.Error(rsp, representation.ErrNotFound.Error(), status)
+			http.Error(rsp, derivatives.ErrNotFound.Error(), status)
 			return
 		}
 
@@ -34,11 +34,11 @@ func GeoJSONLDHandler(opts *GeoJSONLDHandlerOptions) (http.Handler, error) {
 
 		logger = logger.With("id", req_uri.Id)
 
-		r, err := wof_http.FeatureFromRequestURI(ctx, opts.Source, req_uri)
+		r, err := wof_http.FeatureFromRequestURI(ctx, opts.Provider, req_uri)
 
 		if err != nil {
 			logger.Error("Failed to get by ID", "error", err)
-			http.Error(rsp, representation.ErrNotFound.Error(), http.StatusNotFound)
+			http.Error(rsp, derivatives.ErrNotFound.Error(), http.StatusNotFound)
 			return
 		}
 

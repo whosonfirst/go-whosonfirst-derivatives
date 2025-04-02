@@ -7,7 +7,7 @@ import (
 
 	"github.com/rs/cors"
 	"github.com/sfomuseum/go-http-auth"
-	"github.com/whosonfirst/go-whosonfirst-representation"
+	"github.com/whosonfirst/go-whosonfirst-derivatives"
 )
 
 func setupCommon() {
@@ -16,10 +16,10 @@ func setupCommon() {
 	var err error
 
 	// defined in vars.go
-	src, err = representation.NewSource(ctx, run_options.SourceURI)
+	prv, err = derivatives.NewProvider(ctx, run_options.ProviderURI)
 
 	if err != nil {
-		setupCommonError = fmt.Errorf("Failed to set up source, %w", err)
+		setupCommonError = fmt.Errorf("Failed to set up provider, %w", err)
 		return
 	}
 
