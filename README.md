@@ -24,7 +24,7 @@ go build -mod vendor -ldflags="-s -w" -o bin/server cmd/server/main.go
 A simple HTTP server-based interface for serving different machine-reabable representations (derivatives) of Who's On First documents.
 
 ```
-> ./bin/server -h
+$> ./bin/server -h
 A simple HTTP server-based interface for serving different machine-reabable representations (derivatives) of Who's On First documents.
 
 Usage:
@@ -61,6 +61,10 @@ Valid options are:
     	The default path to serve SVG requests from. (default "/id/{id}/svg")
   -path-svg-alt value
     	Zero or more alternate paths to serve SVG requests from.
+  -path-wkt string
+    	The default path to serve WKT requests from. (default "/id/{id}/wkt")
+  -path-wkt-alt value
+    	Zero or more alternate paths to serve WKT requests from.
   -provider-uri string
     	A registered whosonfirst/go-whosonfirst-derivatives.Provider URI. (default "reader://?reader-uri=https://data.whosonfirst.org")
   -reader-uri string
@@ -144,9 +148,15 @@ Returns a WOF record as a JSON-encoded [standard places response](https://github
 
 ### SVG
 
-Returns a WOF record as a XML-encoded SVG representation of the geometry for a given WOF ID. For example `http://localhost:8080/id/101736545/svg` would yield:
+Returns the geometry for a WOF record as a XML-encoded SVG document. For example `http://localhost:8080/id/101736545/svg` would yield:
 
 ![](docs/images/go-whosonfirst-derivatives-svg.png)
+
+### WKT (Well-Known Text)
+
+Returns the geometry for a WOF record encoded as a [Well-Known Text](https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry) (WKT) string. For example `http://localhost:8080/id/101736545/wkt` would yield:
+
+![](docs/images/go-whosonfirst-derivatives-wkt.png)
 
 ## Providers
 

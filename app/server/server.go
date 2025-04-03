@@ -62,6 +62,7 @@ func RunWithOptions(ctx context.Context, opts *RunOptions) error {
 		run_options.URIs.Select:    selectHandlerFunc,
 		run_options.URIs.SPR:       sprHandlerFunc,
 		run_options.URIs.SVG:       svgHandlerFunc,
+		run_options.URIs.WKT:       wktHandlerFunc,
 	}
 
 	assign_handlers := func(handler_map map[string]handler.RouteHandlerFunc, paths []string, handler_func handler.RouteHandlerFunc) {
@@ -78,6 +79,7 @@ func RunWithOptions(ctx context.Context, opts *RunOptions) error {
 	assign_handlers(handlers, run_options.URIs.SelectAlt, selectHandlerFunc)
 	assign_handlers(handlers, run_options.URIs.SPRAlt, sprHandlerFunc)
 	assign_handlers(handlers, run_options.URIs.SVGAlt, svgHandlerFunc)
+	assign_handlers(handlers, run_options.URIs.WKTAlt, wktHandlerFunc)
 
 	logger := slog.Default()
 

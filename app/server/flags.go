@@ -31,6 +31,9 @@ var path_spr_alt multi.MultiCSVString
 var path_svg string
 var path_svg_alt multi.MultiCSVString
 
+var path_wkt string
+var path_wkt_alt multi.MultiCSVString
+
 var navplace_max_features int
 
 var enable_cors bool
@@ -63,6 +66,9 @@ func DefaultFlagSet() *flag.FlagSet {
 
 	fs.StringVar(&path_svg, "path-svg", "/id/{id}/svg", "The default path to serve SVG requests from.")
 	fs.Var(&path_svg_alt, "path-svg-alt", "Zero or more alternate paths to serve SVG requests from.")
+
+	fs.StringVar(&path_wkt, "path-wkt", "/id/{id}/wkt", "The default path to serve WKT requests from.")
+	fs.Var(&path_wkt_alt, "path-wkt-alt", "Zero or more alternate paths to serve WKT requests from.")
 
 	fs.IntVar(&navplace_max_features, "navplace-max-features", 10, "The maximum number of WOF IDs allowed in a NavPlace request.")
 

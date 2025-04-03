@@ -57,6 +57,8 @@ func RunOptionsFromFlagSet(ctx context.Context, fs *flag.FlagSet) (*RunOptions, 
 	uris.SPRAlt = path_spr_alt
 	uris.SVG = path_svg
 	uris.SVGAlt = path_svg_alt
+	uris.WKT = path_wkt
+	uris.WKTAlt = path_wkt_alt
 
 	if reader_uri != "" && strings.Contains(provider_uri, "{reader_uri}") {
 		provider_uri = strings.Replace(provider_uri, "{reader_uri}", url.QueryEscape(reader_uri), 1)
