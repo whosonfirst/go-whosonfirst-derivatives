@@ -180,3 +180,29 @@ func svgHandlerFunc(ctx context.Context) (http.Handler, error) {
 
 	return h, nil
 }
+
+func wktHandlerFunc(ctx context.Context) (http.Handler, error) {
+
+	setupAPIOnce.Do(setupAPI)
+
+	if setupAPIError != nil {
+		slog.Error("Failed to set up common configuration", "error", setupAPIError)
+		return nil, fmt.Errorf("Failed to set up common configuration, %w", setupAPIError)
+	}
+
+	opts := &api.WKTHandlerOptions{
+		Provider: prv,
+	}
+
+	h, err := api.WKTHandler(opts)
+
+	if err != nil {
+		return nil, err
+	}
+
+	if cors_wrapper != nil {
+		h = cors_wrapper.Handler(h)
+	}
+
+	return h, nil
+}

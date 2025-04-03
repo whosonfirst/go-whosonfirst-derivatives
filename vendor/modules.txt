@@ -261,6 +261,7 @@ github.com/paulmach/go.geojson
 # github.com/paulmach/orb v0.10.0
 ## explicit; go 1.15
 github.com/paulmach/orb
+github.com/paulmach/orb/encoding/wkt
 github.com/paulmach/orb/geojson
 github.com/paulmach/orb/project
 # github.com/rs/cors v1.11.1

@@ -7,6 +7,7 @@ require (
 	github.com/aaronland/go-http-server v1.5.0
 	github.com/aaronland/go-roster v1.0.0
 	github.com/mitchellh/copystructure v1.2.0
+	github.com/paulmach/orb v0.10.0
 	github.com/rs/cors v1.11.1
 	github.com/sfomuseum/go-flags v0.10.0
 	github.com/sfomuseum/go-geojsonld v1.0.0
@@ -63,7 +64,6 @@ require (
 	github.com/mattn/go-sqlite3 v1.14.24 // indirect
 	github.com/mitchellh/reflectwalk v1.0.2 // indirect
 	github.com/paulmach/go.geojson v1.4.0 // indirect
-	github.com/paulmach/orb v0.10.0 // indirect
 	github.com/sfomuseum/go-edtf v1.2.1 // indirect
 	github.com/sfomuseum/runtimevar v1.2.3 // indirect
 	github.com/tidwall/match v1.1.1 // indirect
