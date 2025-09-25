@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 
+	"github.com/aaronland/go-http/v3/slog"
 	"github.com/paulmach/orb/encoding/wkt"
 	"github.com/paulmach/orb/geojson"
 	"github.com/whosonfirst/go-whosonfirst-derivatives"
@@ -19,7 +20,7 @@ func WKTHandler(opts *WKTHandlerOptions) (http.Handler, error) {
 	fn := func(rsp http.ResponseWriter, req *http.Request) {
 
 		ctx := req.Context()
-		logger := wof_http.LoggerWithRequest(req, nil)
+		logger := slog.LoggerWithRequest(req, nil)
 
 		req_uri, err, status := wof_http.ParseURIFromRequest(req)
 

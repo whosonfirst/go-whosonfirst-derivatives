@@ -3,6 +3,7 @@ package api
 import (
 	"net/http"
 
+	"github.com/aaronland/go-http/v3/slog"
 	"github.com/sfomuseum/go-geojsonld"
 	"github.com/whosonfirst/go-whosonfirst-derivatives"
 	wof_http "github.com/whosonfirst/go-whosonfirst-derivatives/http"
@@ -17,7 +18,7 @@ func GeoJSONLDHandler(opts *GeoJSONLDHandlerOptions) (http.Handler, error) {
 	fn := func(rsp http.ResponseWriter, req *http.Request) {
 
 		ctx := req.Context()
-		logger := wof_http.LoggerWithRequest(req, nil)
+		logger := slog.LoggerWithRequest(req, nil)
 
 		req_uri, err, status := wof_http.ParseURIFromRequest(req)
 
