@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/aaronland/go-http/v3/slog"
 	"github.com/tidwall/gjson"
 	"github.com/whosonfirst/go-sanitize"
 	"github.com/whosonfirst/go-whosonfirst-derivatives"
@@ -56,7 +57,7 @@ func SVGHandler(opts *SVGHandlerOptions) (http.Handler, error) {
 	fn := func(rsp http.ResponseWriter, req *http.Request) {
 
 		ctx := req.Context()
-		logger := wof_http.LoggerWithRequest(req, nil)
+		logger := slog.LoggerWithRequest(req, nil)
 
 		req_uri, err, status := wof_http.ParseURIFromRequest(req)
 

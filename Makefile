@@ -7,7 +7,8 @@ cli:
 	go build -mod $(GOMOD) -ldflags="$(LDFLAGS)" -o bin/server cmd/server/main.go
 
 debug:
-	go run -mod $(GOMOD) cmd/server/main.go \
+	@make cli
+	./bin/server \
 		-enable-cors \
 		-provider-uri 'reader://?reader-uri={reader_uri}' \
 		-reader-uri 'https://data.whosonfirst.org' \

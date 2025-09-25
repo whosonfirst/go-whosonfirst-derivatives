@@ -5,7 +5,8 @@ import (
 	"regexp"
 
 	"encoding/json"
-	"github.com/aaronland/go-http-sanitize"
+	"github.com/aaronland/go-http/v3/sanitize"
+	"github.com/aaronland/go-http/v3/slog"
 	"github.com/tidwall/gjson"
 	"github.com/whosonfirst/go-whosonfirst-derivatives"
 	wof_http "github.com/whosonfirst/go-whosonfirst-derivatives/http"
@@ -21,7 +22,7 @@ func SelectHandler(opts *SelectHandlerOptions) (http.Handler, error) {
 	fn := func(rsp http.ResponseWriter, req *http.Request) {
 
 		ctx := req.Context()
-		logger := wof_http.LoggerWithRequest(req, nil)
+		logger := slog.LoggerWithRequest(req, nil)
 
 		query, err := sanitize.GetString(req, "select")
 

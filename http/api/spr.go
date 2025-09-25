@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 
+	"github.com/aaronland/go-http/v3/slog"
 	"github.com/whosonfirst/go-whosonfirst-derivatives"
 	wof_http "github.com/whosonfirst/go-whosonfirst-derivatives/http"
 	"github.com/whosonfirst/go-whosonfirst-spr/v2"
@@ -18,7 +19,7 @@ func SPRHandler(opts *SPRHandlerOptions) (http.Handler, error) {
 	fn := func(rsp http.ResponseWriter, req *http.Request) {
 
 		ctx := req.Context()
-		logger := wof_http.LoggerWithRequest(req, nil)
+		logger := slog.LoggerWithRequest(req, nil)
 
 		req_uri, err, status := wof_http.ParseURIFromRequest(req)
 

@@ -7,8 +7,8 @@ import (
 	"log/slog"
 	"net/http"
 
-	"github.com/aaronland/go-http-server"
-	"github.com/aaronland/go-http-server/handler"
+	"github.com/aaronland/go-http/v3/handlers"
+	"github.com/aaronland/go-http/v3/server"
 )
 
 func Run(ctx context.Context) error {
@@ -50,7 +50,7 @@ func RunWithOptions(ctx context.Context, opts *RunOptions) error {
 	// START OF defer loading handlers (and all their dependencies) until they are actually routed to
 	// in case we are running in a "serverless" environment like AWS Lambda
 
-	handlers := map[string]handler.RouteHandlerFunc{
+	route_handlers := map[string]handlers.RouteHandlerFunc{
 
 		// Common handler things
 		// "/robots.txt": robotsTxtHandlerFunc,
@@ -65,7 +65,7 @@ func RunWithOptions(ctx context.Context, opts *RunOptions) error {
 		run_options.URIs.WKT:       wktHandlerFunc,
 	}
 
-	assign_handlers := func(handler_map map[string]handler.RouteHandlerFunc, paths []string, handler_func handler.RouteHandlerFunc) {
+	assign_handlers := func(handler_map map[string]handlers.RouteHandlerFunc, paths []string, handler_func handlers.RouteHandlerFunc) {
 
 		for _, p := range paths {
 			handler_map[p] = handler_func
@@ -73,24 +73,19 @@ func RunWithOptions(ctx context.Context, opts *RunOptions) error {
 	}
 
 	// API/machine-readable
-	assign_handlers(handlers, run_options.URIs.GeoJSONAlt, geoJSONHandlerFunc)
-	assign_handlers(handlers, run_options.URIs.GeoJSONLDAlt, geoJSONLDHandlerFunc)
-	assign_handlers(handlers, run_options.URIs.NavPlaceAlt, navPlaceHandlerFunc)
-	assign_handlers(handlers, run_options.URIs.SelectAlt, selectHandlerFunc)
-	assign_handlers(handlers, run_options.URIs.SPRAlt, sprHandlerFunc)
-	assign_handlers(handlers, run_options.URIs.SVGAlt, svgHandlerFunc)
-	assign_handlers(handlers, run_options.URIs.WKTAlt, wktHandlerFunc)
+	assign_handlers(route_handlers, run_options.URIs.GeoJSONAlt, geoJSONHandlerFunc)
+	assign_handlers(route_handlers, run_options.URIs.GeoJSONLDAlt, geoJSONLDHandlerFunc)
+	assign_handlers(route_handlers, run_options.URIs.NavPlaceAlt, navPlaceHandlerFunc)
+	assign_handlers(route_handlers, run_options.URIs.SelectAlt, selectHandlerFunc)
+	assign_handlers(route_handlers, run_options.URIs.SPRAlt, sprHandlerFunc)
+	assign_handlers(route_handlers, run_options.URIs.SVGAlt, svgHandlerFunc)
+	assign_handlers(route_handlers, run_options.URIs.WKTAlt, wktHandlerFunc)
 
-	logger := slog.Default()
-
-	log_logger := slog.NewLogLogger(logger.Handler(), slog.LevelInfo)
-
-	route_handler_opts := &handler.RouteHandlerOptions{
-		Handlers: handlers,
-		Logger:   log_logger,
+	route_handler_opts := &handlers.RouteHandlerOptions{
+		Handlers: route_handlers,
 	}
 
-	route_handler, err := handler.RouteHandlerWithOptions(route_handler_opts)
+	route_handler, err := handlers.RouteHandlerWithOptions(route_handler_opts)
 
 	if err != nil {
 		return fmt.Errorf("Failed to configure route handler, %w", err)
@@ -108,7 +103,7 @@ func RunWithOptions(ctx context.Context, opts *RunOptions) error {
 	}
 
 	go func() {
-		for uri, h := range handlers {
+		for uri, h := range route_handlers {
 			slog.Debug("Enable handler", "uri", uri, "handler", fmt.Sprintf("%T", h))
 		}
 	}()
