@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/aaronland/go-http/v3/slog"
+	"github.com/aaronland/go-http/v4/slog"
 	"github.com/whosonfirst/go-whosonfirst-derivatives"
 	wof_http "github.com/whosonfirst/go-whosonfirst-derivatives/http"
 	"github.com/whosonfirst/go-whosonfirst-spr/v2"

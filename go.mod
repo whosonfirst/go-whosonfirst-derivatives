@@ -3,17 +3,17 @@ module github.com/whosonfirst/go-whosonfirst-derivatives
 go 1.25.0
 
 require (
-	github.com/aaronland/go-http/v3 v3.2.0
+	github.com/aaronland/go-http/v4 v4.0.0
 	github.com/aaronland/go-roster v1.0.0
 	github.com/mitchellh/copystructure v1.2.0
 	github.com/paulmach/orb v0.12.0
 	github.com/rs/cors v1.11.1
-	github.com/sfomuseum/go-flags v0.11.0
+	github.com/sfomuseum/go-flags v0.12.1
 	github.com/sfomuseum/go-geojsonld v1.0.0
 	github.com/tidwall/gjson v1.18.0
-	github.com/whosonfirst/go-reader-findingaid/v2 v2.0.1
+	github.com/whosonfirst/go-reader-findingaid/v2 v2.1.1
 	github.com/whosonfirst/go-reader-github/v2 v2.0.1
-	github.com/whosonfirst/go-reader/v2 v2.0.0
+	github.com/whosonfirst/go-reader/v2 v2.1.0
 	github.com/whosonfirst/go-sanitize v0.1.0
 	github.com/whosonfirst/go-whosonfirst-spr/v2 v2.3.8
 	github.com/whosonfirst/go-whosonfirst-svg v0.1.0
@@ -76,7 +76,7 @@ require (
 	github.com/whosonfirst/go-geojson-svg v0.0.5 // indirect
 	github.com/whosonfirst/go-ioutil v1.0.2 // indirect
 	github.com/whosonfirst/go-whosonfirst-feature v0.0.29 // indirect
-	github.com/whosonfirst/go-whosonfirst-findingaid/v2 v2.9.3 // indirect
+	github.com/whosonfirst/go-whosonfirst-findingaid/v2 v2.11.0 // indirect
 	github.com/whosonfirst/go-whosonfirst-flags v0.5.2 // indirect
 	github.com/whosonfirst/go-whosonfirst-sources v0.1.0 // indirect
 	go.mongodb.org/mongo-driver v1.11.4 // indirect

@@ -7,8 +7,8 @@ import (
 	"log/slog"
 	"net/http"
 
-	"github.com/aaronland/go-http/v3/handlers"
-	"github.com/aaronland/go-http/v3/server"
+	"github.com/aaronland/go-http/v4/route"
+	"github.com/aaronland/go-http/v4/server"
 )
 
 func Run(ctx context.Context) error {
@@ -50,7 +50,7 @@ func RunWithOptions(ctx context.Context, opts *RunOptions) error {
 	// START OF defer loading handlers (and all their dependencies) until they are actually routed to
 	// in case we are running in a "serverless" environment like AWS Lambda
 
-	route_handlers := map[string]handlers.RouteHandlerFunc{
+	route_handlers := map[string]route.RouteHandlerFunc{
 
 		// Common handler things
 		// "/robots.txt": robotsTxtHandlerFunc,
@@ -65,7 +65,7 @@ func RunWithOptions(ctx context.Context, opts *RunOptions) error {
 		run_options.URIs.WKT:       wktHandlerFunc,
 	}
 
-	assign_handlers := func(handler_map map[string]handlers.RouteHandlerFunc, paths []string, handler_func handlers.RouteHandlerFunc) {
+	assign_handlers := func(handler_map map[string]route.RouteHandlerFunc, paths []string, handler_func route.RouteHandlerFunc) {
 
 		for _, p := range paths {
 			handler_map[p] = handler_func
@@ -81,11 +81,11 @@ func RunWithOptions(ctx context.Context, opts *RunOptions) error {
 	assign_handlers(route_handlers, run_options.URIs.SVGAlt, svgHandlerFunc)
 	assign_handlers(route_handlers, run_options.URIs.WKTAlt, wktHandlerFunc)
 
-	route_handler_opts := &handlers.RouteHandlerOptions{
+	route_handler_opts := &route.RouteHandlerOptions{
 		Handlers: route_handlers,
 	}
 
-	route_handler, err := handlers.RouteHandlerWithOptions(route_handler_opts)
+	route_handler, err := route.RouteHandlerWithOptions(route_handler_opts)
 
 	if err != nil {
 		return fmt.Errorf("Failed to configure route handler, %w", err)
