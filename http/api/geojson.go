@@ -5,7 +5,8 @@ import (
 
 	"github.com/aaronland/go-http/v4/slog"
 	"github.com/whosonfirst/go-whosonfirst-derivatives"
-	wof_http "github.com/whosonfirst/go-whosonfirst-derivatives/http"
+	derivatives_http "github.com/whosonfirst/go-whosonfirst-derivatives/http"	
+	wof_http "github.com/whosonfirst/go-whosonfirst/http"
 )
 
 type GeoJSONHandlerOptions struct {
@@ -36,7 +37,7 @@ func GeoJSONHandler(opts *GeoJSONHandlerOptions) (http.Handler, error) {
 
 		logger = logger.With("wof id", wof_id)
 
-		r, err := wof_http.FeatureFromRequestURI(ctx, opts.Provider, req_uri)
+		r, err := derivatives_http.FeatureFromRequestURI(ctx, opts.Provider, req_uri)
 
 		if err != nil {
 			logger.Error("Failed to get by ID", "error", err)

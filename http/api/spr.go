@@ -6,7 +6,8 @@ import (
 
 	"github.com/aaronland/go-http/v4/slog"
 	"github.com/whosonfirst/go-whosonfirst-derivatives"
-	wof_http "github.com/whosonfirst/go-whosonfirst-derivatives/http"
+	derivatives_http "github.com/whosonfirst/go-whosonfirst-derivatives/http"			
+	wof_http "github.com/whosonfirst/go-whosonfirst/http"
 	"github.com/whosonfirst/go-whosonfirst-spr/v2"
 )
 
@@ -36,7 +37,7 @@ func SPRHandler(opts *SPRHandlerOptions) (http.Handler, error) {
 
 		logger = logger.With("id", req_uri.Id)
 
-		r, err := wof_http.FeatureFromRequestURI(ctx, opts.Provider, req_uri)
+		r, err := derivatives_http.FeatureFromRequestURI(ctx, opts.Provider, req_uri)
 
 		if err != nil {
 			logger.Error("Failed to get by ID", "error", err)

@@ -2,11 +2,11 @@ package api
 
 import (
 	"net/http"
-
+	
 	"github.com/aaronland/go-http/v4/slog"
 	"github.com/sfomuseum/go-geojsonld"
 	"github.com/whosonfirst/go-whosonfirst-derivatives"
-	wof_http "github.com/whosonfirst/go-whosonfirst-derivatives/http"
+	wof_http "github.com/whosonfirst/go-whosonfirst/http"
 )
 
 type GeoJSONLDHandlerOptions struct {
@@ -35,7 +35,7 @@ func GeoJSONLDHandler(opts *GeoJSONLDHandlerOptions) (http.Handler, error) {
 
 		logger = logger.With("id", req_uri.Id)
 
-		r, err := wof_http.FeatureFromRequestURI(ctx, opts.Provider, req_uri)
+		r, err := opts.Provider.GetFeature(ctx, req_uri.Id, req_uri.URIArgs)
 
 		if err != nil {
 			logger.Error("Failed to get by ID", "error", err)
@@ -43,7 +43,7 @@ func GeoJSONLDHandler(opts *GeoJSONLDHandlerOptions) (http.Handler, error) {
 			return
 		}
 
-		body, err := geojsonld.AsGeoJSONLD(ctx, r)
+		body, err := geojsonld.AsGeoJSONLDWithReader(ctx, r)
 
 		if err != nil {
 			logger.Error("Failed to render geojson", "error", err)

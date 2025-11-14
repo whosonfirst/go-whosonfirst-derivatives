@@ -349,6 +349,10 @@ github.com/whosonfirst/go-reader/v2
 # github.com/whosonfirst/go-sanitize v0.1.0
 ## explicit; go 1.12
 github.com/whosonfirst/go-sanitize
+# github.com/whosonfirst/go-whosonfirst v0.0.2
+## explicit; go 1.25.0
+github.com/whosonfirst/go-whosonfirst/http
+github.com/whosonfirst/go-whosonfirst/http/webfinger
 # github.com/whosonfirst/go-whosonfirst-feature v0.0.29
 ## explicit; go 1.22
 github.com/whosonfirst/go-whosonfirst-feature

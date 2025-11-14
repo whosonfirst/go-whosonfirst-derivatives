@@ -15,6 +15,7 @@ require (
 	github.com/whosonfirst/go-reader-github/v2 v2.0.1
 	github.com/whosonfirst/go-reader/v2 v2.1.0
 	github.com/whosonfirst/go-sanitize v0.1.0
+	github.com/whosonfirst/go-whosonfirst v0.0.2
 	github.com/whosonfirst/go-whosonfirst-spr/v2 v2.3.8
 	github.com/whosonfirst/go-whosonfirst-svg v0.1.0
 	github.com/whosonfirst/go-whosonfirst-uri v1.3.0
